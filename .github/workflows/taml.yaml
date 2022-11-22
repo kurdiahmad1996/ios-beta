@@ -48,9 +48,9 @@ jobs:
         run: |
           xcodebuild -list -project iosbeta.xcodeproj
 
-#       - name : build archive
-#         run: |
-#           xcodebuild -scheme "basic-ios (iOS)" clean archive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -configuration "Release"
+      - name : build archive
+        run: |
+          xcodebuild -scheme "iosbeta" clean archive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -configuration "Release"
 
 #       - name : export -archivePath
 #         run : xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportPath ${{GITHUB.WORKSPACE}}/myipa  -exportOptionsPlist ./Info.plist
@@ -109,3 +109,22 @@ jobs:
 
 # #  xcrun altool --validate-app -f ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa -t ios -u "a.kurdi@livaatverse.com" [-p "Ahm@d1996"] 
 # #  xcrun altool — validate-app -f [path/to/.ipa] -t ios
+
+
+
+# #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# User defaults from command line:
+#     IDEPackageSupportUseBuiltinSCM = YES
+
+# Information about project "iosbeta":
+#     Targets:
+#         iosbeta
+
+#     Build Configurations:
+#         Debug
+#         Release
+
+#     If no build configuration is specified and -scheme is not passed then "Release" is used.
+
+#     Schemes:
+#         iosbeta
