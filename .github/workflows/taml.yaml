@@ -25,7 +25,6 @@ jobs:
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-
           # import certificate and provisioning profile from secrets
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
           echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
@@ -36,73 +35,73 @@ jobs:
           security unlock-keychain -p "123456789" $KEYCHAIN_PATH
 
           # import certificate to keychain
-          security import ./basic-ios.p12 -P "ubitc123" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import ./beta-app-certificate.p12 -P "" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp ./aaa.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles
+          cp ./betaprovisioningprofile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles
           #cp ./bbb.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles
 
 
-      - name : build archive
-        run: |
-          xcodebuild -scheme "basic-ios (iOS)" clean archive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -configuration "Release"
+#       - name : build archive
+#         run: |
+#           xcodebuild -scheme "basic-ios (iOS)" clean archive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -configuration "Release"
 
-      - name : export -archivePath
-        run : xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportPath ${{GITHUB.WORKSPACE}}/myipa  -exportOptionsPlist ./Info.plist
+#       - name : export -archivePath
+#         run : xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportPath ${{GITHUB.WORKSPACE}}/myipa  -exportOptionsPlist ./Info.plist
   
-      - name : ls ipa
-        if: always()
-        run: |
-          ls -lta ${{GITHUB.WORKSPACE}}/myipa
-        continue-on-error: true 
-# ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa
+#       - name : ls ipa
+#         if: always()
+#         run: |
+#           ls -lta ${{GITHUB.WORKSPACE}}/myipa
+#         continue-on-error: true 
+# # ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa
 
 
-      - name: install api key in authkey in private keys
-        run: |
-          mkdir ~/private_keys
-          ls ~/private_keys
-          cp ./AuthKey_566FUS6N7U.p8  ~/private_keys
-          ls ~/private_keys
+#       - name: install api key in authkey in private keys
+#         run: |
+#           mkdir ~/private_keys
+#           ls ~/private_keys
+#           cp ./AuthKey_566FUS6N7U.p8  ~/private_keys
+#           ls ~/private_keys
 
-      - name : upload to testflight
-        run: |
-           xcrun altool --upload-app -f ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa -t ios --apiKey "566FUS6N7U" --apiIssuer "2510c862-f59e-4eb9-aa30-4ab1f9f56e55" --bundle-id "com.ubitc.basic-ios"
-          # xcrun altool --list-providers --apiKey "566FUS6N7U" --apiIssuer "2510c862-f59e-4eb9-aa30-4ab1f9f56e55"
-          # LIVAAT PORTAL L.L.C 4KLL7526QS        2510c862-f59e-4eb9-aa30-4ab1f9f56e55 4KLL7526QS 
-        #  xcrun altool --validate-app -f ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa -t ios -u $user -p $pass
-         #  xcrun altool — upload-app -f [${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa] -t ios -u $user -p $pass
+#       - name : upload to testflight
+#         run: |
+#            xcrun altool --upload-app -f ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa -t ios --apiKey "566FUS6N7U" --apiIssuer "2510c862-f59e-4eb9-aa30-4ab1f9f56e55" --bundle-id "com.ubitc.basic-ios"
+#           # xcrun altool --list-providers --apiKey "566FUS6N7U" --apiIssuer "2510c862-f59e-4eb9-aa30-4ab1f9f56e55"
+#           # LIVAAT PORTAL L.L.C 4KLL7526QS        2510c862-f59e-4eb9-aa30-4ab1f9f56e55 4KLL7526QS 
+#         #  xcrun altool --validate-app -f ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa -t ios -u $user -p $pass
+#          #  xcrun altool — upload-app -f [${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa] -t ios -u $user -p $pass
            
-                 #     name: my-artifac      #     name: my-artifac
+#                  #     name: my-artifac      #     name: my-artifac
 
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: my-artifact
-      #     path: ${{GITHUB.WORKSPACE}}/YourApp.xcarchive
+#       # - uses: actions/upload-artifact@v3
+#       #   with:
+#       #     name: my-artifact
+#       #     path: ${{GITHUB.WORKSPACE}}/YourApp.xcarchive
 
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: my-ipa
-      #     path: ${{GITHUB.WORKSPACE}}/myipa/*
+#       # - uses: actions/upload-artifact@v3
+#       #   with:
+#       #     name: my-ipa
+#       #     path: ${{GITHUB.WORKSPACE}}/myipa/*
 
-#xcodebuild test -workspace MyApplication.xcworkspace -scheme iOSApp -destination 'platform=iOS,name=iPhone'
+# #xcodebuild test -workspace MyApplication.xcworkspace -scheme iOSApp -destination 'platform=iOS,name=iPhone'
 
-    #       Information about project "basic-ios":
-    # Targets:
-    #     basic-ios (iOS)
-    #     basic-ios (macOS)
-##############
-    # Build Configurations:
-    #     Debug dddd
-    #     Release
+#     #       Information about project "basic-ios":
+#     # Targets:
+#     #     basic-ios (iOS)
+#     #     basic-ios (macOS)
+# ##############
+#     # Build Configurations:
+#     #     Debug dddd
+#     #     Release
 
-    # If no build configuration is specified and -scheme is not passed then "Release" is used.
+#     # If no build configuration is specified and -scheme is not passed then "Release" is used.
 
-    # Schemes:
-    #     basic-ios (iOS)
-    #     basic-ios (macOS)
+#     # Schemes:
+#     #     basic-ios (iOS)
+#     #     basic-ios (macOS)
 
-#  xcrun altool --validate-app -f ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa -t ios -u "a.kurdi@livaatverse.com" [-p "Ahm@d1996"] 
-#  xcrun altool — validate-app -f [path/to/.ipa] -t ios
+# #  xcrun altool --validate-app -f ${{GITHUB.WORKSPACE}}/myipa/basic-ios.ipa -t ios -u "a.kurdi@livaatverse.com" [-p "Ahm@d1996"] 
+# #  xcrun altool — validate-app -f [path/to/.ipa] -t ios
