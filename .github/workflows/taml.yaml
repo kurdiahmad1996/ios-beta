@@ -35,7 +35,7 @@ jobs:
           security unlock-keychain -p "123456789" $KEYCHAIN_PATH
 
           # import certificate to keychain
-          security import ./beta-app-certificate.p12 -P "" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import ./Certificates-pass-ubitc123.p12 -P "ubitc123" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           # apply provisioning profile
