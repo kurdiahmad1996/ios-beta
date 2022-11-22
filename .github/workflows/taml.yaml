@@ -51,7 +51,7 @@ jobs:
       - name : build archive
         run: |
           xcodebuild -scheme "iosbeta" clean archive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -configuration "Release"
-
+#sdsfsdfsdf
 #       - name : export -archivePath
 #         run : xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportPath ${{GITHUB.WORKSPACE}}/myipa  -exportOptionsPlist ./Info.plist
   
